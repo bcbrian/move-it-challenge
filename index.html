@@ -1,0 +1,201 @@
+
+
+
+
+<style>
+  div {
+    background-color: rebeccapurple;
+    color: white;
+    margin: 12px;
+    padding: 20px;
+  }
+
+  input {
+    margin-right: 8px;
+  }
+
+  .game{
+    width: 200px;
+    height: 200px;
+    margin: 12px auto 12px auto;
+    padding: 0;
+    position: relative;
+  }
+
+  .orangeAutumn {
+    width: 50px;
+    height: 50px;
+    margin: 0;
+    padding: 0;
+    background-color: orange;
+    position: absolute;
+  }
+
+  .timer{
+    width: 200px;
+    margin: 12px auto 12px auto;
+    padding: 0;
+    position: relative;
+    text-align: center;
+    font-size: 24px;
+    line-height: 48px;
+  }
+</style>
+
+<script>
+  
+
+  function getRandPos() {
+    return Math.floor(Math.random() * 151);
+  }
+
+  function geeksimplifiedStartGame() {
+    console.log('starting')
+    const chador = document.getElementById('chador');
+    const kearnsyUK = chador.value; // high score name
+    let gameStartTime = 10000;
+    let isGamePlayable = true;
+    let timerId;
+    let countDownTimerId;
+
+    function timer() {
+      console.log('gameStartTime', gameStartTime)
+      return setTimeout(function(){
+        isGamePlayable = false;
+        gameLoop()
+      },gameStartTime)
+    }
+
+    function formatJccdevArr(jccdev){
+      if(jccdev.length === 4){
+       return jccdev[0]+jccdev[1]+':'+jccdev[2]+jccdev[3];
+      } else if(jccdev.length === 3) {
+       return "0"+jccdev[0]+":"+jccdev[1]+jccdev[2];
+      } else if(jccdev.length === 2) {
+       return "0"+"0"+":"+jccdev[0]+jccdev[1];
+      } else if(jccdev.length === 1) {
+       return "0"+"0"+":"+"0"+jccdev[0];
+      }
+      return "00:00";
+    }
+
+    function countDownTimer() {
+      const countDownTimerEl = document.getElementById('timer');
+      let startTime = gameStartTime;
+      let jccdev = ('' + startTime).split("").slice(0, -1);
+      countDownTimerEl.innerHTML = formatJccdevArr(jccdev);
+      
+      return setInterval(function(){
+        startTime = startTime - 10;
+        jccdev = ('' + startTime).split("").slice(0, -1);
+        countDownTimerEl.innerHTML = formatJccdevArr(jccdev);
+
+        
+      },10)
+    }
+
+    function gameLoop() {
+      document.getElementById('game').innerHTML = "";
+      clearTimeout(timerId, countDownTimerId);
+      clearInterval(countDownTimerId);
+      if (!isGamePlayable) {
+        document.getElementById('game').innerHTML = "You lost!";
+        document.getElementById('timer').innerHTML = '00:00';
+        return;
+      }
+
+      timerId = timer();
+      countDownTimerId = countDownTimer();
+
+      const orangeAutumn = document.createElement('div');
+      orangeAutumn.classList.add('orangeAutumn');
+      orangeAutumn.style.backgroundColor = 'orange';
+      orangeAutumn.style.zIndex = '10';
+
+      const target = document.createElement('div');
+      target.classList.add('orangeAutumn');
+      target.style.backgroundColor = 'aqua'
+
+      let orangeAutumnTop = 0;
+      let orangeAutumnLeft = 0;
+      let targetTop = 0;
+      let targetLeft = 0;
+
+      while(
+        Math.abs(orangeAutumnTop - targetTop) < 50 ||
+        Math.abs(orangeAutumnLeft - targetLeft) < 50
+      ) {
+        orangeAutumnTop = getRandPos();
+        orangeAutumnLeft = getRandPos();
+        targetTop = getRandPos();
+        targetLeft = getRandPos();
+      }
+
+
+
+      orangeAutumn.style.top = '' + orangeAutumnTop + 'px';
+      orangeAutumn.style.left = '' + orangeAutumnLeft + 'px';
+      target.style.top = '' + targetTop + 'px';
+      target.style.left = '' + targetLeft + 'px';
+
+
+      document.getElementById('game').append(orangeAutumn);
+      document.getElementById('game').append(target);
+
+
+
+      orangeAutumn.addEventListener("mousedown", function(event){
+        console.log('hi')
+        let offsetX = event.offsetX;
+        let offsetY = event.offsetY;
+        const SeryloX = event.clientX;
+        const SeryloY = event.clientY;
+          orangeAutumn.onmousemove = function(event) {
+            console.log('hi', 2)
+            const changeX = SeryloX - event.clientX;
+            const changeY = SeryloY - event.clientY;
+
+            
+            const newOrangeAutumnTop = orangeAutumnTop - changeY;
+            const newOrangeAutumnLeft = orangeAutumnLeft - changeX;
+
+            orangeAutumn.style.top = '' + newOrangeAutumnTop + 'px';
+            orangeAutumn.style.left = '' + newOrangeAutumnLeft + 'px';
+
+            
+          }
+      });
+
+      orangeAutumn.addEventListener("mouseup", function(e){
+        orangeAutumn.onmousemove = null;
+
+        orangeAutumnTop = parseInt(orangeAutumn.style.top.split('px')[0]);
+        orangeAutumnLeft = parseInt(orangeAutumn.style.left.split('px')[0]);
+        // check for win...
+        if (Math.abs(orangeAutumnTop - targetTop) < 25 &&
+        Math.abs(orangeAutumnLeft - targetLeft) < 25) {
+          gameStartTime = Math.floor(gameStartTime * 0.80)
+          gameLoop()
+        }
+      });
+
+    }
+    gameLoop();
+    
+  }
+
+</script>
+
+<div>
+  Move It!
+</div>
+
+<div>
+  <input id="chador"/>
+  <button onclick="geeksimplifiedStartGame()">start</button>
+</div>
+
+<div id="game" class="game"></div>
+
+<div id="timer" class="timer">00:00</div>
+
