@@ -1,0 +1,91 @@
+body {
+  font-family: "Nunito", sans-serif;
+}
+
+div {
+  background-color: rebeccapurple;
+  color: white;
+  padding: 32px;
+}
+
+label {
+  margin: 8px auto;
+}
+
+input {
+  margin: 8px auto;
+  width: 100%;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  text-align: center;
+  max-width: 560px;
+  letter-spacing: 2;
+}
+
+button {
+  margin: 8px auto;
+  width: 100%;
+  border-radius: 4px;
+  line-height: 32px;
+  border: 2px solid white;
+  background-color: rebeccapurple;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 4;
+  font-family: "VT323", monospace;
+  font-size: 24px;
+  max-width: 560px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  font-size: 24px;
+  text-transform: uppercase;
+  letter-spacing: 4;
+}
+
+.game {
+  width: 200px;
+  height: 200px;
+  margin: 12px auto 12px auto;
+  padding: 0;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.orangeAutumn {
+  width: 50px;
+  height: 50px;
+  margin: 0;
+  padding: 0;
+  background-color: orange;
+  position: absolute;
+}
+
+.hud {
+  width: 200px;
+  margin: 12px auto 12px auto;
+  padding: 0 12px;
+  position: relative;
+  text-align: center;
+  font-size: 40px;
+  line-height: 48px;
+  font-family: "VT323", monospace;
+  display: flex;
+  justify-content: space-between;
+}
+
+.score,
+.timer {
+  margin: 0;
+  padding: 0;
+}
