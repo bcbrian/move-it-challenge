@@ -8,13 +8,14 @@ function getRandPos() {
   return Math.floor(Math.random() * 151);
 }
 
-function handleHighScore(newHighscore) {
+function handleHighScore(newHighScore, newHighScoreName) {
   // check to see if this is the new high score
   // get the current highscore
   let highScore = getHighScore();
   // if the new one is equal or higher then update it
-  if (newHighscore >= highScore) {
-    setHighScore(newHighscore);
+  if (newHighScore >= highScore) {
+    setHighScore(newHighScore);
+    setHighScoreName(newHighScoreName);
     // then display it
     displayHighScore();
   }
@@ -25,12 +26,20 @@ function handleHighScore(newHighscore) {
 function getHighScore() {
   return localStorage.getItem("highScore") || 0;
 }
-function setHighScore(newHighscore) {
-  localStorage.setItem("highScore", newHighscore);
+function setHighScore(newHighScore) {
+  localStorage.setItem("highScore", newHighScore);
+}
+
+function getHighScoreName() {
+  return localStorage.getItem("highScoreName") || "";
+}
+function setHighScoreName(newHighScoreName) {
+  localStorage.setItem("highScoreName", newHighScoreName);
 }
 
 function displayHighScore() {
   document.getElementById("highScore").innerHTML = getHighScore();
+  document.getElementById("highScoreName").innerHTML = getHighScoreName();
 }
 displayHighScore();
 
@@ -89,7 +98,7 @@ function geeksimplifiedStartGame() {
     if (!isGamePlayable) {
       document.getElementById("game").innerHTML = kearnsyUK + " lost!";
       document.getElementById("timer").innerHTML = "00:00";
-      handleHighScore(score);
+      handleHighScore(score, kearnsyUK);
       return;
     }
 

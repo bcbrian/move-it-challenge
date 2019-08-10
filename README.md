@@ -2,18 +2,8 @@
 
 ## User Stories
 
-Given I am playing the game for the first time
-When I loose
-Then I should see my name as the high score name
+Given I am playing
+When I lose
+Then my score and name are added to the top x high scores
 
-Given I am coming back to play at a later day
-When I look to the bottom of the screen
-Then I see my previous high score and name
-
-Given I just lost
-When my score is lower than the previos one
-Then it should not replace the score and name
-
-Given I just lost
-When my score is higher or equal than the previos one
-Then it should replace the score and name
+Note: you can choose what x is but it bust be higher than 2. So a min of top 3.

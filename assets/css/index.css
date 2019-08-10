@@ -96,6 +96,7 @@ button {
   align-items: center;
 }
 
-#highScore {
+#highScore,
+#highScoreName {
   padding: 0 0 0 4px;
 }
