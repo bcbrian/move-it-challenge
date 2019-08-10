@@ -8,6 +8,32 @@ function getRandPos() {
   return Math.floor(Math.random() * 151);
 }
 
+function handleHighScore(newHighscore) {
+  // check to see if this is the new high score
+  // get the current highscore
+  let highScore = getHighScore();
+  // if the new one is equal or higher then update it
+  if (newHighscore >= highScore) {
+    setHighScore(newHighscore);
+    // then display it
+    displayHighScore();
+  }
+
+  // if it isnt do nothing
+}
+
+function getHighScore() {
+  return localStorage.getItem("highScore") || 0;
+}
+function setHighScore(newHighscore) {
+  localStorage.setItem("highScore", newHighscore);
+}
+
+function displayHighScore() {
+  document.getElementById("highScore").innerHTML = getHighScore();
+}
+displayHighScore();
+
 function geeksimplifiedStartGame() {
   console.log("starting");
   const chador = document.getElementById("chador");
@@ -63,6 +89,7 @@ function geeksimplifiedStartGame() {
     if (!isGamePlayable) {
       document.getElementById("game").innerHTML = kearnsyUK + " lost!";
       document.getElementById("timer").innerHTML = "00:00";
+      handleHighScore(score);
       return;
     }
 

@@ -89,3 +89,13 @@ button {
   margin: 0;
   padding: 0;
 }
+
+.high-score-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#highScore {
+  padding: 0 0 0 4px;
+}
