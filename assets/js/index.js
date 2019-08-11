@@ -9,39 +9,105 @@ function getRandPos() {
 }
 
 function handleHighScore(newHighScore, newHighScoreName) {
-  // check to see if this is the new high score
-  // get the current highscore
-  let highScore = getHighScore();
-  // if the new one is equal or higher then update it
-  if (newHighScore >= highScore) {
-    setHighScore(newHighScore);
-    setHighScoreName(newHighScoreName);
-    // then display it
-    displayHighScore();
+  // check to see if this is a new high score
+  // get the current highscores
+  debugger;
+  const highScores = getHighScores();
+  // place holder to help shuffle the scores;
+  let oldScore = null;
+  // max number of highScores
+  const maxLength = 3;
+  let currentLength = highScores.length;
+  if (currentLength < maxLength) {
+    currentLength = currentLength + 1;
   }
+  // loop through the high scores
+  for (let i = 0; i < currentLength; i++) {
+    // if there is an old score then replace the current on with it
+    if (oldScore) {
+      const temp = highScores[i];
+      highScores[i] = oldScore;
+      oldScore = temp;
+      break;
+    }
+    // if the new one is equal or higher then update it
+    const highScoreObj = highScores[i];
+    if (!highScoreObj) {
+      highScores[i] = {
+        name: newHighScoreName,
+        score: newHighScore
+      };
+      break;
+    }
+    const highScore = highScoreObj.score;
+    if (newHighScore > highScore) {
+      oldScore = {
+        name: highScores[i].name,
+        score: highScores[i].score
+      };
+      highScores[i].score = newHighScore;
+      highScores[i].name = newHighScoreName;
+      // then display it
+    }
 
-  // if it isnt do nothing
+    // if it isnt do nothing
+  }
+  setHighScores(highScores);
+  displayHighScores();
 }
 
-function getHighScore() {
-  return localStorage.getItem("highScore") || 0;
+function getHighScores() {
+  const highScores = localStorage.getItem("highScores") || '{"highScores": []}'; //{name, score}
+  return JSON.parse(highScores).highScores;
 }
-function setHighScore(newHighScore) {
-  localStorage.setItem("highScore", newHighScore);
-}
-
-function getHighScoreName() {
-  return localStorage.getItem("highScoreName") || "";
-}
-function setHighScoreName(newHighScoreName) {
-  localStorage.setItem("highScoreName", newHighScoreName);
+function setHighScores(newHighScores) {
+  localStorage.setItem(
+    "highScores",
+    JSON.stringify({ highScores: newHighScores })
+  );
 }
 
-function displayHighScore() {
-  document.getElementById("highScore").innerHTML = getHighScore();
-  document.getElementById("highScoreName").innerHTML = getHighScoreName();
+function displayHighScores() {
+  // select contianer
+  const scoreContainerEl = document.querySelector(".high-scores-container");
+  // clear container
+  scoreContainerEl.innerHTML = "";
+  // create title el
+  const scoreTitleEl = document.createElement("div");
+  // add class
+  scoreTitleEl.classList.add("high-score-title");
+  // set inner html
+  scoreTitleEl.innerHTML = "High Scores";
+  // append to container
+  scoreContainerEl.append(scoreTitleEl);
+
+  const highScores = getHighScores();
+
+  // loop through the high scores
+  for (let i = 0; i < highScores.length; i++) {
+    // create name
+    const placeEl = document.createElement("div");
+    // add class
+    placeEl.classList.add("high-score-place");
+    // set inner html
+    placeEl.innerHTML = i + 1;
+    // create name
+    const nameEl = document.createElement("div");
+    // add class
+    nameEl.classList.add("high-score-name");
+    // set inner html
+    nameEl.innerHTML = highScores[i].name;
+    // create score
+    const scoreEl = document.createElement("div");
+    // add class
+    scoreEl.classList.add("high-score");
+    // set inner html
+    scoreEl.innerHTML = highScores[i].score;
+    // append this to container
+    scoreContainerEl.append(placeEl, nameEl, scoreEl);
+  }
 }
-displayHighScore();
+displayHighScores();
 
 function geeksimplifiedStartGame() {
   console.log("starting");

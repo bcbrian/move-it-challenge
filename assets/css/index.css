@@ -90,13 +90,42 @@ button {
   padding: 0;
 }
 
-.high-score-container {
+.high-scores-container {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
 }
 
-#highScore,
-#highScoreName {
-  padding: 0 0 0 4px;
+.high-score,
+.high-score-name,
+.high-score-place,
+.high-score-title {
+  padding: 0;
+  margin-bottom: 8px;
+}
+
+.high-score-title {
+  width: 100%;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2;
+  border-bottom: 2px solid white;
+}
+
+.high-score,
+.high-score-name,
+.high-score-place {
+  flex: 0 0 33%;
+}
+
+.high-score-name {
+  text-align: center;
+}
+
+.high-score {
+  text-align: right;
 }
